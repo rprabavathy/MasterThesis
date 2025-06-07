@@ -1,0 +1,7 @@
+log_dir: ${work_dir}/logs
+data_dir: ${work_dir}/dataset
+output_dir: ${hydra:runtime.output_dir}/output
+
+test_dir: ${paths.data_dir}/Test
+pred_dir: ${paths.output_dir}/predictions
+

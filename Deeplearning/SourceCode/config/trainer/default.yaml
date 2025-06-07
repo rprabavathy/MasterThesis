@@ -1,0 +1,13 @@
+# Trainer configuration
+_target_: pytorch_lightning.Trainer
+default_root_dir: ${paths.output_dir}
+max_epochs: 2000 #1000
+gradient_clip_val: ${gradient_clip_val} #0.5
+precision: 16-mixed
+log_every_n_steps: 1
+accelerator: gpu
+strategy: ddp
+devices:  auto
+num_nodes: 1 
+sync_batchnorm: True
+enable_progress_bar: True

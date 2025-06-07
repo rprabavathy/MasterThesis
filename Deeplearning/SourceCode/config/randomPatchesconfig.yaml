@@ -1,0 +1,72 @@
+work_dir: ${hydra:runtime.cwd}
+
+task_name: "train"
+name: "Segmentation"
+print_config:  True
+ignore_warnings: True
+sweep: 42
+
+  #logging_config:
+  #default_path: "./config/logging.yaml"
+  #level: INFO
+
+defaults:
+  - _self_
+  - hydra: default
+  - paths: default
+  - datamodule: default
+  - model: model
+  - trainer: default
+  - callbacks: default
+  - logger: 
+      - tensorboard
+      - mlflow
+      - csv
+  - predict: default 
+  - override hydra/sweeper: optuna
+
+#num_patches: 80000
+val_size: 0.15
+test_size: 0.10
+
+#patch_size: 128
+#overlap: 0.25
+#batch_size: 64
+#lr: 0.0001
+#wd: 0.0001
+#num_workers: 4
+#gradient_clip_val: 1
+
+optimized_metric: "val/F1"
+
+#output directory, generated dynamically on each run
+hydra:
+  mode: MULTIRUN
+  sweeper:
+    #_target_: hydra.plugins.sweeper.optuna.OptunaSweeper
+    _target_: hydra_plugins.hydra_optuna_sweeper.optuna_sweeper.OptunaSweeper
+    storage: null 
+    study_name: 'Segmentation_study' 
+    n_jobs: 2
+    direction: maximize  
+    n_trials: 5  # total number of runs that will be executed
+    sampler:
+      _target_: optuna.samplers.TPESampler
+      seed: 42
+      n_startup_trials: 2  # number of random sampling runs before optimization starts
+    params:
+      +batch_size: choice(128) #choice(64)  
+      +patch_size: choice(256)     
+      +overlap: choice(0.25, 0.5, 0.75)
+        #+num_patches: choice(50000, 100000)
+      +lr: choice(0.0001)
+      +wd: choice(0.000001)
+      +num_workers: choice(8)              
+      +gradient_clip_val: choice(1)
+
+job_logging:
+  root:
+    level: INFO
+  handlers:
+    file:
+      filename: ${hydra:runtime.output_dir}/${task_name}.log

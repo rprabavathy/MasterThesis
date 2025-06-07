@@ -1,0 +1,24 @@
+#model/model.yaml
+_target_: src.models.model.BrainSegModel
+architecture: "unet"
+encoder_name: "resnet50"
+in_channels: 3
+encoder_weights: 'imagenet'
+activation: 'softmax' 
+attention_type: null # 'scse'   
+auxparams: 
+  #dropout: 0.5
+  classes: 3
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: ${lr} #1e-4
+  weight_decay: ${wd} #1e-4
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  _partial_: true
+  mode: min
+  factor: 0.5
+  patience: 15

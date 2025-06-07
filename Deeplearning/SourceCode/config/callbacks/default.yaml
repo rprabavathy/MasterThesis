@@ -1,0 +1,37 @@
+#rich_progress_bar:
+# _target_: lightning.pytorch.callbacks.RichProgressBar
+#  refresh_rate: 1
+#  leave: True
+
+model_summary:
+  _target_: pytorch_lightning.callbacks.RichModelSummary
+  max_depth: -1
+
+model_checkpoint:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/
+  filename: 'epoch_{epoch:03d}'
+  monitor: val/loss
+  mode: 'min'
+  save_top_k: 1
+  save_last: True
+  every_n_epochs: 1
+  auto_insert_metric_name: True
+
+early_stopping:
+  _target_: pytorch_lightning.callbacks.EarlyStopping
+  monitor: val/loss
+  patience: 200 #30
+  min_delta: 0.00
+  mode: min
+
+learning_rate_monitor:
+    _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: 'epoch' 
+
+predictionWriter:
+    _target_: src.callbacks.predictionWriter.CustomWriter
+    output_dir: ${paths.output_dir}/predictions
+    write_interval: 'epoch'
+
+
