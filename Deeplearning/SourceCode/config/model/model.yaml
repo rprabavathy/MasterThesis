@@ -1,7 +1,7 @@
 #model/model.yaml
 _target_: src.models.model.BrainSegModel
 architecture: "unet"
-encoder_name: "resnet50"
+encoder_name: ${encoder_name}
 in_channels: 3
 encoder_weights: 'imagenet'
 activation: 'softmax' 

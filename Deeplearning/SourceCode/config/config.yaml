@@ -28,6 +28,7 @@ defaults:
 #num_patches: 100000
 val_size: 0.15
 test_size: 0.10
+encoder_name: "resnet50"
 
 #patch_size: 256
 #overlap: 0.25
