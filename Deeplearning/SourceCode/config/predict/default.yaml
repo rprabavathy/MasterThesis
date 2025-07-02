@@ -1,24 +1,3 @@
-#_target_: src.scripts.predict.Predictor
-#model: ${model}
-#image_dir: ${paths.data_dir}/Test
-#output_dir: ${paths.output_dir}/predictions
-#patch_size: ${patch_size}
-#model_checkpoint: ${paths.output_dir}/checkpoints/final_model.ckpt #${work_dir}/output/final_model.ckpt 
-#
-
-#_target_: src.datamodule.predictionDM.PatchPredictionDataModule
-#image_dir: ${paths.data_dir}/Test
-#output_dir: ${paths.output_dir}/predictions
-  #patch_size: ${datamodule.dataset.patch_size}
-  #spacing: ${datamodule.dataset.patch_size}
-  #batch_size: 32
-  #image_path: null 
-
-  #path:
-  #image_dir: ${paths.data_dir}/Test
-  #output_dir: ${paths.output_dir}/predictions
-  #
-
 #Multigpu
 _target_: src.scripts.predict.Predictor
 model: ${model}

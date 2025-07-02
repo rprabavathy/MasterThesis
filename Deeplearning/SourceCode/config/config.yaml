@@ -21,7 +21,7 @@ defaults:
   - logger: 
       - tensorboard
       - mlflow
-      - csv
+      # - csv
   - predict: default 
   - override hydra/sweeper: optuna
 
